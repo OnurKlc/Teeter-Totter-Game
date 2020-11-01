@@ -9,7 +9,17 @@ export const getters = {
     if (state.masses.length > 0) {
       return state.masses.reduce((ac, next) => {
         const itemDistanceBaseFive =
-          (next.position * 5) / state.teeterTotterWidth
+          (next.position * 5) / (state.teeterTotterWidth / 2)
+        const itemMomentum = next.weight * itemDistanceBaseFive
+        return ac + itemMomentum
+      }, 0)
+    }
+  },
+  getRightMomentum: (state) => {
+    if (state.rightMasses.length > 0) {
+      return state.rightMasses.reduce((ac, next) => {
+        const itemDistanceBaseFive =
+          (next.position * 5) / (state.teeterTotterWidth / 2)
         const itemMomentum = next.weight * itemDistanceBaseFive
         return ac + itemMomentum
       }, 0)

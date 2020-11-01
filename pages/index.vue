@@ -1,7 +1,11 @@
 <template>
   <main class="container">
+    <div class="button-container">
+      <button class="primary" @click="pauseAnimation">Pause</button>
+      <button class="primary" @click="continueAnimation">Continue</button>
+    </div>
     <div class="mass-field">
-      <Mass />
+      <Mass :is-playing="isAnimationPlaying" />
     </div>
     <TeeterTotter />
   </main>
@@ -18,10 +22,20 @@ export default {
     TeeterTotter,
   },
   data() {
-    return {}
+    return {
+      isAnimationPlaying: true,
+    }
   },
   computed: {
     ...mapState(['']),
+  },
+  methods: {
+    pauseAnimation() {
+      this.isAnimationPlaying = false
+    },
+    continueAnimation() {
+      this.isAnimationPlaying = true
+    },
   },
 }
 </script>

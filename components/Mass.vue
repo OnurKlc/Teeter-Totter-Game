@@ -58,6 +58,12 @@ import { TimelineLite } from 'gsap'
 import { v4 as uuidv4 } from 'uuid'
 
 export default {
+  props: {
+    isPlaying: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       left: 0,
@@ -70,6 +76,15 @@ export default {
     ...mapGetters(['getLeftMomentum']),
   },
   watch: {
+    isPlaying() {
+      if (!this.isPlaying) {
+        window.timeline.pause()
+        document.removeEventListener('keydown', window.listenerFunc)
+      } else {
+        window.timeline.play()
+        document.addEventListener('keydown', window.listenerFunc)
+      }
+    },
     '$store.state.masses'() {
       if (this.$store.state.masses.length > 0) {
         this.animateMass()
@@ -87,15 +102,17 @@ export default {
     this.generateRightMass()
   },
   methods: {
-    async animateMass() {
+    pauseAnimation() {},
+    animateMass() {
       const scope = this
-      const timeline = new TimelineLite()
-      const lastMass = await this.$refs.masses[this.masses.length - 1]
+      window.timeline = new TimelineLite()
+      const lastMass = this.$refs.masses[this.masses.length - 1]
       this.listenArrowPress(lastMass)
-      timeline.to(lastMass, {
+      window.timeline.to(lastMass, {
         duration: 10,
         top: '100%',
         onComplete() {
+          document.removeEventListener('keydown', window.listenerFunc)
           const leftOffset = Math.floor(
             lastMass.getBoundingClientRect().left + 40
           )
@@ -143,12 +160,12 @@ export default {
     },
     listenArrowPress(el) {
       const scope = this
-      const listenerFunc = function (e) {
+      window.listenerFunc = function (e) {
         let leftPx = el.style.left
         leftPx = leftPx.substring(0, leftPx.length - 2)
         switch (e.keyCode) {
           case 37:
-            if (+leftPx - 10 < 0) return 0
+            if (+leftPx - 10 < 0 || !scope.isPlaying) return 0
             el.style.left = +leftPx - 10 + 'px'
             break
           case 39:
@@ -157,10 +174,7 @@ export default {
             break
         }
       }
-      document.addEventListener('keydown', listenerFunc)
-      setTimeout(() => {
-        document.removeEventListener('keydown', listenerFunc)
-      }, 10000)
+      document.addEventListener('keydown', window.listenerFunc)
     },
   },
 }
