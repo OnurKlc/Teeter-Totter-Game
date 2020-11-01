@@ -15,7 +15,6 @@ export default {
   },
   methods: {
     init(left, top) {
-      console.log(top)
       this.$store.commit('updateLeftLimit', left)
       this.$store.commit('updateBottomLimit', top)
     },

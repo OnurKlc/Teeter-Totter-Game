@@ -1,12 +1,18 @@
 <template>
   <div
     ref="mass"
-    class="mass"
+    :class="`mass ${
+      item === 0
+        ? 'square'
+        : item === 1
+        ? 'circle'
+        : item === 2
+        ? 'triangle'
+        : ''
+    }`"
     :style="`background: ${bgColor}; left: ${leftLimit}px`"
   >
-    <div v-if="item === 0" class="square">{{ weight }}kg</div>
-    <div v-if="item === 1" class="circle">{{ weight }}kg</div>
-    <div v-if="item === 2" class="triangle">{{ weight }}kg</div>
+    {{ weight }}kg
   </div>
 </template>
 
@@ -58,14 +64,9 @@ export default {
   height: 40px;
   position: absolute;
   top: -50px;
-
-  div {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .square {
 }
