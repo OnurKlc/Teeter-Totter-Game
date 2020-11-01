@@ -58,8 +58,10 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
-import { TimelineLite } from 'gsap'
+import { gsap, TimelineLite } from 'gsap'
 import { v4 as uuidv4 } from 'uuid'
+
+gsap.registerPlugin(TimelineLite)
 
 export default {
   data() {
