@@ -6,28 +6,13 @@
 </template>
 
 <script>
-export default {
-  mounted() {
-    const { topLayer } = this.$refs
-    const offsetTop = topLayer.getBoundingClientRect().top
-    const offsetLeft = topLayer.getBoundingClientRect().left
-    this.init(offsetLeft, offsetTop)
-  },
-  methods: {
-    init(left, top) {
-      this.$store.commit('updateLeftLimit', left)
-      this.$store.commit('updateBottomLimit', top)
-    },
-  },
-}
+export default {}
 </script>
 
 <style lang="scss" scoped>
 .teeter-totter {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-bottom: 50px;
+  margin-top: auto;
   width: 100%;
   display: flex;
   flex-direction: column;

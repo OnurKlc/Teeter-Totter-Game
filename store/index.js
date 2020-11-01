@@ -1,6 +1,5 @@
 export const state = () => ({
-  leftLimit: 0,
-  bottomLimit: 0,
+  masses: [],
 })
 
 // export const getters = {
@@ -10,12 +9,8 @@ export const state = () => ({
 // }
 
 export const mutations = {
-  updateLeftLimit: (state, payload) => {
-    state.leftLimit = payload
-  },
-  updateBottomLimit: (state, payload) => {
-    console.log(payload)
-    state.bottomLimit = payload
+  updateMasses: (state, payload) => {
+    state.masses.push(payload)
   },
 }
 

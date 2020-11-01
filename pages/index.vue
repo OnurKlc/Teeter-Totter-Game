@@ -1,6 +1,8 @@
 <template>
   <main class="container">
-    <Mass />
+    <div class="mass-field">
+      <Mass />
+    </div>
     <TeeterTotter />
   </main>
 </template>
@@ -14,6 +16,9 @@ export default {
   components: {
     Mass,
     TeeterTotter,
+  },
+  data() {
+    return {}
   },
   computed: {
     ...mapState(['']),
