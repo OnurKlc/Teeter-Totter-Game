@@ -2,28 +2,24 @@ export const state = () => ({
   masses: [],
   rightMasses: [],
   teeterTotterWidth: 0,
+  uiState: 'play',
 })
 
 export const getters = {
-  getLeftMomentum: (state) => {
-    if (state.masses.length > 0) {
-      return state.masses.reduce((ac, next) => {
-        const itemDistanceBaseFive =
-          (next.position * 5) / (state.teeterTotterWidth / 2)
-        const itemMomentum = next.weight * itemDistanceBaseFive
-        return ac + itemMomentum
-      }, 0)
-    }
-  },
-  getRightMomentum: (state) => {
-    if (state.rightMasses.length > 0) {
-      return state.rightMasses.reduce((ac, next) => {
-        const itemDistanceBaseFive =
-          (next.position * 5) / (state.teeterTotterWidth / 2)
-        const itemMomentum = next.weight * itemDistanceBaseFive
-        return ac + itemMomentum
-      }, 0)
-    }
+  getMomentum: (state) => {
+    const leftMomentum = state.masses.reduce((ac, next) => {
+      const itemDistanceBaseFive =
+        (next.position * 5) / (state.teeterTotterWidth / 2)
+      const itemMomentum = next.weight * itemDistanceBaseFive
+      return ac + itemMomentum
+    }, 0)
+    const rightMomentum = state.rightMasses.reduce((ac, next) => {
+      const itemDistanceBaseFive =
+        (next.position * 5) / (state.teeterTotterWidth / 2)
+      const itemMomentum = next.weight * itemDistanceBaseFive
+      return ac + itemMomentum
+    }, 0)
+    return rightMomentum.toFixed(2) - leftMomentum.toFixed(2)
   },
 }
 
@@ -41,10 +37,14 @@ export const mutations = {
   updateTeeterTotterWidth: (state, payload) => {
     state.teeterTotterWidth = payload
   },
+  updateUiState: (state, payload) => {
+    if (payload === 'end') {
+      window.timeline.pause()
+      state.masses = []
+      state.rightMasses = []
+      state.uiState = payload
+    } else {
+      window.location.reload()
+    }
+  },
 }
-
-// export const actions = {
-//   updateActionData({ commit, newData }) {
-//     commit('updateData', newData)
-//   },
-// }

@@ -1,12 +1,35 @@
 <template>
   <div class="teeter-totter">
-    <div id="teeterTotterTop" ref="topLayer" class="top-layer" />
+    <div
+      id="teeterTotterTop"
+      ref="topLayer"
+      class="top-layer"
+      :style="`transform: rotate(${momentum / 2}deg)`"
+    />
     <div class="base" />
   </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters(['getMomentum']),
+    momentum() {
+      return this.$store.getters.getMomentum.toFixed(2)
+    },
+  },
+  watch: {
+    momentum() {
+      if (this.momentum > 20 || this.momentum < -20) {
+        window.timeline.pause()
+        setTimeout(() => {
+          this.$store.commit('updateUiState', 'end')
+        }, 1000)
+      }
+    },
+  },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -24,6 +47,7 @@ export default {}
   background-color: red;
   width: 70%;
   height: 5px;
+  transition: 0.2s;
 }
 .base {
   width: 0;
