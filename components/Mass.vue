@@ -189,6 +189,7 @@ export default {
   width: 100%;
   display: flex;
   transform-origin: bottom;
+  transition: 0.5s;
 }
 .mass-left-wrapper {
   height: 100%;

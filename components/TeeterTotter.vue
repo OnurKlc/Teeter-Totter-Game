@@ -47,7 +47,7 @@ export default {
   background-color: red;
   width: 70%;
   height: 5px;
-  transition: 0.2s;
+  transition: 0.5s;
 }
 .base {
   width: 0;
